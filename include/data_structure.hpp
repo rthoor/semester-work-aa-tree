@@ -29,6 +29,8 @@ namespace itis {
       void Skew(Node *parent);
 
       void Split(Node *pNode);
+
+      Node* Search(int value);
   };
 
 }  // namespace itis

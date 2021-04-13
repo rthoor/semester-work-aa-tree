@@ -6,24 +6,22 @@ namespace itis {
 
   // здесь должны быть определения методов вашей структуры
   void AATree::Add(int value){
-        auto node = new Node(value, nullptr, nullptr, 1);
+        auto node = new Node(value, nullptr, nullptr, nullptr, 1);
 
         if(size_ == 0){
             root_ = node;
         }
         else{
             Node* current = root_;
-            Node* parentOfCurrent = root_;
             bool isSet = false;
             while(!isSet) {
                 if (value >= current->value){
                     if(current->right == nullptr){
                         current->right = node;
-                        Split(parentOfCurrent);
+                        Split(current->parent);
                         isSet = true;
                     }
                     else{
-                        parentOfCurrent = current;
                         current = current->right;
                     }
                 }
@@ -34,7 +32,6 @@ namespace itis {
                         isSet = true;
                     }
                     else{
-                        parentOfCurrent = current;
                         current = current->left;
                     }
                 }
@@ -55,12 +52,41 @@ namespace itis {
         Node *parent = grandparent->right;
         Node *child = parent->right;
         if(child->level == grandparent->level) {
-            grandparent->right = parent->left;
-            parent->left = grandparent;
-            grandparent = parent;
-            grandparent->level++;
+            while(grandparent!=root_){
+                grandparent->right = parent->left;
+                parent->left = grandparent;
+                parent->level++;
+                Split(grandparent->parent);
+            }
+            if(root_ == grandparent){
+                grandparent->right = parent->left;
+                parent->left = grandparent;
+                parent->level++;
+                root_ = parent;
+            }
         }
     }
+
+    Node* AATree::Search(int value) {
+      Node* current = root_;
+      while(true) {
+          if (value == current->value) {
+              return current;
+          } else if (value > current->value) {
+              if (current->right == nullptr) {
+                  return nullptr;
+              } else {
+                  current = current->right;
+              }
+          } else if (value < current->value) {
+              if (current->left == nullptr) {
+                  return nullptr;
+              } else {
+                  current = current->left;
+              }
+          }
+      }
+   }
 
 
 }  // namespace itis

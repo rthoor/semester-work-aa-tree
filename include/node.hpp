@@ -7,6 +7,9 @@ namespace itis {
         // хранимое значение
         int value;
 
+        // указатели на родителя
+        Node *parent;
+
         // указатели на левого и правого потомка
         Node *left;
         Node *right;
@@ -15,6 +18,7 @@ namespace itis {
         int level;
 
 
-        Node(int value, Node *left, Node *right, int level) : value(value), left(left), right(right), level(level) {}
+        Node(int value, Node *parent, Node *left, Node *right, int level) : value(value), parent(parent), left(left),
+                                                                            right(right), level(level) {}
     };
 }
