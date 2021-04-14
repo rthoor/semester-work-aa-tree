@@ -18,6 +18,7 @@ namespace itis {
                 if (value >= current->value){
                     if(current->right == nullptr){
                         current->right = node;
+                        node->parent=current;
                         Split(current->parent);
                         isSet = true;
                     }
@@ -28,6 +29,7 @@ namespace itis {
                 if (value < current->value){
                     if(current->left == nullptr){
                         current->left = node;
+                        node->parent=current;
                         Skew(current);
                         isSet = true;
                     }
