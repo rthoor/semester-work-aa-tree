@@ -1,5 +1,7 @@
 #pragma once
 #include <node.hpp>
+#include <iostream>
+using namespace std;
 
 // Заголовочный файл с объявлением структуры данных
 
@@ -13,16 +15,7 @@ namespace itis {
   // Пример: объявление структуры с полями и методами
   struct AATree {
    public:
-    int size_{0};
-    int capacity_{0};
     Node* root_{nullptr};
-
-    // Tip 2: На начальном этапе разработки структуры данных можете определения методов задавать в
-    // заголовочном файле, как только работа будет завершена, можно будет оставить здесь только объявления.
-
-    int size() const {
-      return size_;
-    }
 
     void Add(int value);
 
@@ -31,6 +24,12 @@ namespace itis {
       void Split(Node *pNode);
 
       Node* Search(int value);
+
+      Node *Delete(int value);
+
+      void DecreaseLevel(Node* current);
+
+      void Print(Node* current);
   };
 
 }  // namespace itis
