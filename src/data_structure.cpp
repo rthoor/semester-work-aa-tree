@@ -10,6 +10,7 @@ namespace itis {
 
         if(root_ == nullptr){
             root_ = node;
+
         }
         else{
             Node* current = root_;
@@ -19,6 +20,7 @@ namespace itis {
                     if(current->right == nullptr){
                         current->right = node;
                         node->parent=current;
+                        Skew(current);
                         Split(current->parent);
                         isSet = true;
                     }
@@ -31,7 +33,9 @@ namespace itis {
                         current->left = node;
                         node->parent=current;
                         Skew(current);
+                        Split(current->parent);
                         isSet = true;
+
                     }
                     else{
                         current = current->left;
@@ -39,36 +43,115 @@ namespace itis {
                 }
             }
         }
+
   }
 
   void AATree::Skew(Node* parent){
-      Node *child = parent->left;
-      if(child->level == parent->level) {
-          parent->left = child->right;
-          child->right = parent;
-          parent = child;
+    if(parent->left != nullptr) {
+      Node* child = parent->left;
+      if (child->level == parent->level) {
+        parent->left = child->right;
+        if(parent->left != nullptr){
+          parent->left->parent = parent;
+        }
+        child->right = parent;
+        if(parent->parent != nullptr) {
+          if(parent->parent->left = parent) {
+            child->parent = parent->parent;
+            child->parent->left = child;
+          }
+          else{
+            child->parent = parent->parent;
+            child->parent->right = child;
+          }
+        }
+        else{
+          root_ = child;
+        }
+        parent->parent = child;
       }
+    }
+
+      /* if(parent->left != nullptr) {
+      Node* child = parent->left;
+      if (child->level == parent->level) {
+        parent->left = child->right;
+        if(child->right != nullptr) {
+          child->right->parent = parent;
+        }
+        child->right = parent;
+        if (parent->parent != nullptr) {
+          Node* grand = parent->parent;
+          child->parent = grand;
+          if (grand->left == parent) {
+            grand->left = child;
+          } else {
+            grand->right = child;
+          }
+        }
+        else{
+          child->parent = nullptr;
+        }
+        parent->parent = child;
+        if (root_ == parent) {
+          root_ = child;
+        }
+      }
+    }
+       */
   }
 
     void AATree::Split(Node* grandparent){
-        if(grandparent != nullptr) {
-            Node *parent = grandparent->right;
-            Node *child = parent->right;
-            if (child->level == grandparent->level) {
-                while (grandparent != root_) {
-                    grandparent->right = parent->left;
-                    parent->left = grandparent;
-                    parent->level++;
-                    Split(grandparent->parent);
-                }
-                if (root_ == grandparent) {
-                    grandparent->right = parent->left;
-                    parent->left = grandparent;
-                    parent->level++;
-                    root_ = parent;
-                }
-            }
+
+      if(temp->right!=NULL && temp->right->right!=NULL)
+        if(temp->level == temp->right->right->level)
+        {
+          Node *ptr = temp->right;
+          temp->right = ptr->left;
+          if(ptr->left != NULL)
+            ptr->left->parent = temp;
+          ptr->left = temp;
+          ptr->parent = temp->parent;
+          temp->parent = ptr;
+          if(ptr->parent != NULL)
+            ptr->parent->right = ptr;
+          ptr->level = ptr->level + 1;
+          return ptr;
         }
+      return temp;
+      /*
+        if(grandparent != nullptr) {
+        Node* parent = grandparent->right;
+        if (parent->right != nullptr) {
+          Node* child = parent->right;
+          if (child->level == grandparent->level) {
+            while (grandparent != root_) {
+              Node* grandgrand = grandparent->parent;
+              grandparent->right = parent->left;
+              parent->left = grandparent;
+              if (grandgrand->left == grandparent) {
+                grandgrand->left = parent;
+              } else {
+                grandgrand->right = parent;
+              }
+              grandparent->parent = parent;
+              parent->parent = grandgrand;
+              parent->level++;
+              Skew(grandgrand);
+              Split(parent->parent);
+            }
+            if (root_ == grandparent) {
+              grandparent->right = parent->left;
+              parent->left = grandparent;
+              parent->level++;
+              grandparent->parent = parent;
+              parent->parent = nullptr;
+              root_ = parent;
+            }
+          }
+        }
+      }
+       */
     }
 
     Node* AATree::Search(int value) {
@@ -166,13 +249,42 @@ namespace itis {
         cout << " | Value = ";
         cout << current->value;
         cout << " | Left ";
-        Node* left = current->left;
-        cout << left->value;
+        if (current->left != NULL) {
+          int left = current->left->value;
+          cout << left;
+        }
         cout << " | Right ";
-        Node* right = current->left;
-        cout << right->value;
+        if (current->right !=NULL){
+          int right = current->right->value;
+          cout << right;
+        }
+        cout << " | Parent ";
+        if (current->parent != NULL){
+          int parent = current->parent->value;
+          cout << parent;
+        }
         cout << endl;
         if(current->left != nullptr)Print(current->left);
         if(current->right != nullptr)Print(current->right);
+  }
+
+  void AATree::Print1(Node* current) {
+    if (current != nullptr) {
+      cout << "Level ";
+      cout << current->level;
+      cout << " | Value = ";
+      cout << current->value;
+      cout << " | Left ";
+      if (current->left != NULL) {
+        int left = current->left->value;
+        cout << left;
+      }
+      cout << " | Right ";
+      if (current->right != NULL) {
+        int right = current->right->value;
+        cout << right;
+      }
+      cout << endl;
+    }
   }
 }  // namespace itis

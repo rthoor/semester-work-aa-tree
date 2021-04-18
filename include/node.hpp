@@ -20,5 +20,7 @@ namespace itis {
 
         Node(int value, Node *parent, Node *left, Node *right, int level) : value(value), parent(parent), left(left),
                                                                             right(right), level(level) {}
+
+
     };
 }

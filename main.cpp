@@ -21,12 +21,17 @@ int main(int argc, char *argv[]) {
     tree.Add(10);
     tree.Add(1);
     tree.Add(6);
-    tree.Add(4);
-    tree.Add(7);
-    tree.Add(14);
-    tree.Add(13);
-
+    //tree.Add(4);
+    //tree.Add(7);
+    //tree.Add(14);
+    //tree.Add(13);
+    cout << "_________________________________" << endl;
     tree.Print(tree.root_);
+    cout << "----------------------------------" << endl;
+    /*tree.Print1(tree.root_);
+    tree.Print1(tree.root_->left);
+    tree.Print1(tree.root_->right);
+  tree.Print1(tree.root_->right->right); */
     //  tree.Remove(4);
     //  tree.Remove(6);
     //  tree.Remove(8);

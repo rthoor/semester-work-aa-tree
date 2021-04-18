@@ -30,6 +30,7 @@ namespace itis {
       void DecreaseLevel(Node* current);
 
       void Print(Node* current);
+      void Print1(Node* current);
   };
 
 }  // namespace itis
