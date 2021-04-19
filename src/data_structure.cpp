@@ -20,7 +20,7 @@ namespace itis {
                     if(current->right == nullptr){
                         current->right = node;
                         node->parent=current;
-                        Rebalance(current->right);
+                        Balance(current->right);
                         isSet = true;
                     }
                     else{
@@ -31,7 +31,7 @@ namespace itis {
                     if(current->left == nullptr){
                         current->left = node;
                         node->parent=current;
-                        Rebalance(current->left);
+                        Balance(current->left);
                         isSet = true;
 
                     }
@@ -99,7 +99,7 @@ namespace itis {
 
   }
 
-  void AATree::Rebalance(Node* temp)
+  void AATree::Balance(Node* temp)
   {
     while(temp->parent != nullptr)
     {
@@ -140,7 +140,7 @@ namespace itis {
       }
    }
 
-    Node* AATree::Delete(int value){
+    void AATree::Delete(int value){
       Node* current = Search(value);
       if(current->left == nullptr && current->right == nullptr){
           Node* parent = current->parent;
@@ -182,8 +182,18 @@ namespace itis {
               node = node->left;
           }
           Swap(node, current);
-          Delete(current->value);
+          DeleteNode(current);
       }
+  }
+
+    void AATree::DeleteNode(Node* node){
+        if(node->parent->left == node){
+            node->parent->left = nullptr;
+        }
+        else{
+            node->parent->right = nullptr;
+        }
+        delete node;
   }
 
   void AATree::Swap(Node *one, Node *two){
@@ -241,7 +251,7 @@ namespace itis {
             DecreaseLevel(current->parent);
         }
         current->level--;
-        Rebalance(current);
+        Balance(current);
     }
 
     void AATree::Print(Node* current) {

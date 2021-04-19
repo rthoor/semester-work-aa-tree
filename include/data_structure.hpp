@@ -23,13 +23,14 @@ namespace itis {
 
       Node* Search(int value);
 
-      Node *Delete(int value);
+      void Delete(int value);
+      void DeleteNode(Node* node);
 
       void DecreaseLevel(Node* current);
 
       void Print(Node* current);
       void Print1(Node* current);
-      void Rebalance(Node* temp);
+      void Balance(Node* temp);
       Node* Split(Node* temp);
       Node* Skew(Node* temp);
       void Swap(Node* one, Node* two);
