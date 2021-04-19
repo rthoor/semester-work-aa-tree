@@ -19,9 +19,7 @@ namespace itis {
 
     void Add(int value);
 
-      void Skew(Node *parent);
 
-      void Split(Node *pNode);
 
       Node* Search(int value);
 
@@ -31,6 +29,10 @@ namespace itis {
 
       void Print(Node* current);
       void Print1(Node* current);
+      void Rebalance(Node* temp);
+      Node* Split(Node* temp);
+      Node* Skew(Node* temp);
+      void Swap(Node* one, Node* two);
   };
 
 }  // namespace itis
