@@ -196,6 +196,8 @@ namespace itis {
         delete node;
   }
 
+
+
   void AATree::Swap(Node *one, Node *two){
     Node twoCopy = *two;
 
@@ -247,10 +249,11 @@ namespace itis {
   }
 
     void AATree::DecreaseLevel(Node *current) {
+        current->level--;
+        Balance(current);
         if(current!=root_){
             DecreaseLevel(current->parent);
         }
-        current->level--;
         Balance(current);
     }
 
