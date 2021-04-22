@@ -24,9 +24,9 @@ namespace itis {
       Node* Search(int value);
 
       void Delete(int value);
-      void DeleteNode(Node* node);
+      void Delete(Node *current);
 
-      void DecreaseLevel(Node* current);
+      void IncreaseLevel(Node* current);
 
       void Print(Node* current);
       void Print1(Node* current);

@@ -161,7 +161,9 @@ namespace itis {
               parent->right = current->right;
           }
           current->right->parent = parent;
-          DecreaseLevel(current->parent);
+          IncreaseLevel(current->parent->left);
+          IncreaseLevel(current->parent->right);
+          Balance(current->parent);
           delete current;
       }
       else if(current->left != nullptr && current->right == nullptr){
@@ -173,7 +175,9 @@ namespace itis {
               parent->right = current->left;
           }
           current->left->parent = parent;
-          DecreaseLevel(current->parent);
+          IncreaseLevel(current->parent->left);
+          IncreaseLevel(current->parent->right);
+          Balance(current->parent);
           delete current;
       }
       else{
@@ -182,20 +186,58 @@ namespace itis {
               node = node->left;
           }
           Swap(node, current);
-          DeleteNode(current);
+          Delete(current);
       }
   }
 
-    void AATree::DeleteNode(Node* node){
-        if(node->parent->left == node){
-            node->parent->left = nullptr;
+    void AATree::Delete(Node* current){
+        if(current->left == nullptr && current->right == nullptr){
+            Node* parent = current->parent;
+            if(parent->left == current){
+                parent->left = nullptr;
+            }
+            else{
+                parent->right = nullptr;
+            }
+            delete current;
+        }
+        else if(current->left == nullptr && current->right != nullptr){
+            Node* parent = current->parent;
+            if(parent->left == current){
+                parent->left = current->right;
+            }
+            else{
+                parent->right = current->right;
+            }
+            current->right->parent = parent;
+            IncreaseLevel(current->parent->left);
+            IncreaseLevel(current->parent->right);
+            Balance(current->parent);
+            delete current;
+        }
+        else if(current->left != nullptr && current->right == nullptr){
+            Node* parent = current->parent;
+            if(parent->left == current){
+                parent->left = current->left;
+            }
+            else{
+                parent->right = current->left;
+            }
+            current->left->parent = parent;
+            IncreaseLevel(current->parent->left);
+            IncreaseLevel(current->parent->right);
+            Balance(current->parent);
+            delete current;
         }
         else{
-            node->parent->right = nullptr;
+            Node* node = current->right;
+            while(node->left != nullptr){
+                node = node->left;
+            }
+            Swap(node, current);
+            Delete(current);
         }
-        delete node;
-  }
-
+    }
 
 
   void AATree::Swap(Node *one, Node *two){
@@ -248,13 +290,13 @@ namespace itis {
    // delete twoCopy;
   }
 
-    void AATree::DecreaseLevel(Node *current) {
-        current->level--;
-        Balance(current);
-        if(current!=root_){
-            DecreaseLevel(current->parent);
-        }
-        Balance(current);
+    void AATree::IncreaseLevel(Node *current) {
+      if(current!= nullptr) {
+          IncreaseLevel(current->left);
+          IncreaseLevel(current->right);
+          current->level++;
+          Balance(current);
+      }
     }
 
     void AATree::Print(Node* current) {

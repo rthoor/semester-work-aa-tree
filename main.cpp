@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
     tree.Print1(tree.root_->right);
   tree.Print1(tree.root_->right->right); */
     tree.Delete(3);
+    tree.Delete(6);
     //  tree.Remove(6);
     //  tree.Remove(8);
   tree.Print(tree.root_);
