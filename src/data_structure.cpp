@@ -218,31 +218,43 @@ namespace itis {
             delete current;
         }
         else if(current->left == nullptr && current->right != nullptr){
-            Node* parent = current->parent;
-            if(parent->left == current){
-                parent->left = current->right;
+            if(root_ != current) {
+                Node *parent = current->parent;
+                if (parent->left == current) {
+                    parent->left = current->right;
+                } else {
+                    parent->right = current->right;
+                }
+
+                current->right->parent = parent;
+                IncreaseLevel(current->parent->left);
+                IncreaseLevel(current->parent->right);
+                Balance(current->parent);
             }
             else{
-                parent->right = current->right;
+                root_ = current->right;
+                current->right->parent = nullptr;
             }
-            current->right->parent = parent;
-            IncreaseLevel(current->parent->left);
-            IncreaseLevel(current->parent->right);
-            Balance(current->parent);
+
             delete current;
         }
         else if(current->left != nullptr && current->right == nullptr){
-            Node* parent = current->parent;
-            if(parent->left == current){
-                parent->left = current->left;
+            if(root_ != current) {
+                Node *parent = current->parent;
+                if (parent->left == current) {
+                    parent->left = current->left;
+                } else {
+                    parent->right = current->left;
+                }
+                current->left->parent = parent;
+                IncreaseLevel(current->parent->left);
+                IncreaseLevel(current->parent->right);
+                Balance(current->parent);
             }
             else{
-                parent->right = current->left;
+                root_ = current->left;
+                current->right->parent = nullptr;
             }
-            current->left->parent = parent;
-            IncreaseLevel(current->parent->left);
-            IncreaseLevel(current->parent->right);
-            Balance(current->parent);
             delete current;
         }
         else{
@@ -307,7 +319,6 @@ namespace itis {
       one->right->parent = one;
     }
 
-   // delete twoCopy;
   }
 
     void AATree::IncreaseLevel(Node *current) {

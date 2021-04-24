@@ -15,53 +15,97 @@ using namespace itis;
 static constexpr auto kDatasetPath = string_view{PROJECT_DATASET_DIR};
 static constexpr auto kProjectPath = string_view{PROJECT_SOURCE_DIR};
 
-int main(int argc, char **argv) {
+const string setsPath = "C:/Users/EvveKiNG/Desktop/sets";
+const string outputPath = "C:/Users/EvveKiNG/Desktop/results/";
 
-  // Tip 1: входные аргументы позволяют более гибко контролировать параметры вашей программы
+string folders[10] = {"/01/",
+                      "/02/",
+                      "/03/",
+                      "/04/", "/05/", "/06/",
+                      "/07/", "/08/", "/09/",
+                      "/10/"};
+string files[14] = {"100", "500", "1000", "5000", "10000", "25000", "50000", "100000",
+                   "250000", "500000", "750000", "1000000", "2500000", "5000000"};
 
-  // Можете передать путь до входного/выходного файла в качестве аргумента,
-  // т.е. не обязательно использовать kDatasetPath и прочие константы
 
-  for (int index = 0; index < argc; index++) {
-    cout << "Arg: " << argv[index] << '\n';
-  }
+void writeResults(string file, long insert_time, long search_time, long delete_time){
+    const auto output = string(outputPath);
+    std::ofstream out(output + file + "/insert_result.txt", std::ios::app);
+    if (out.is_open())
+    {
+        out << insert_time << std::endl;
+    }
+    out.close();
 
-  // Tip 2: для перевода строки в число можете использовать функцию stoi (string to integer)
+    std::ofstream out1(output + file + "/search_result.txt", std::ios::app);
+    if (out1.is_open())
+    {
+        out1 << search_time << std::endl;
+    }
+    out1.close();
 
-  // можете использовать функционал класса stringstream для обработки строки
-  auto ss = stringstream("0 1 2");  // передаете строку (входной аргумент или строку из файла) и обрабатываете ее
-
-  int number = 0;
-  ss >> number;  // number = 0
-  ss >> number;  // number = 1
-  ss >> number;  // number = 2
-
-  // работа с набором данных
-  const auto path = string(kDatasetPath);
-  cout << "Path to the 'dataset/' folder: " << path << endl;
-
-  auto input_file = ifstream(path + "/dataset-example.csv");
-
-  if (input_file) {
-    // чтение и обработка набора данных ...
-  }
-
-  // Контрольный тест: операции добавления, удаления, поиска и пр. над структурой данных
-
-  // Tip 3: время работы программы (или участка кода) можно осуществить
-  // как изнутри программы (std::chrono), так и сторонними утилитами
-
-  const auto time_point_before = chrono::high_resolution_clock::now();
-
-  // здесь находится участок кода, время которого необходимо замерить
-
-  const auto time_point_after = chrono::high_resolution_clock::now();
-
-  // переводим время в наносекунды
-  const auto time_diff = time_point_after - time_point_before;
-  const long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
-
-  cout << "Time elapsed (ns): " << time_elapsed_ns << '\n';
-
-  return 0;
+    std::ofstream out2(output + file + "/delete_result.txt", std::ios::app);
+    if (out2.is_open())
+    {
+        out2 << delete_time << std::endl;
+    }
+    out2.close();
 }
+
+int main() {
+    // работа с набором данных
+    const auto path = string(setsPath);
+    string line;
+    int c = 0;
+    for (auto file : files) {
+        for (auto folder : folders) {
+            for (int i = 0; i < 1; i++) { // 10 раз прогоняем один и тот же csv файл
+                auto input_file_insert = ifstream(path + folder + file + ".csv");
+                auto input_file_search = ifstream(path + folder + file + ".csv");
+                auto input_file_delete = ifstream(path + folder + file + ".csv");
+
+                AATree *tree = new AATree; // Создание структуры
+
+                // сам бенчмарк, в данном случае создание (добавление)
+                auto time_point_before_insert = chrono::steady_clock::now();
+                while (getline(input_file_insert, line, ',')) {
+                    tree->Add(stoi(line));
+                }
+                auto time_point_after_insert = chrono::steady_clock::now();
+                auto time_diff_insert = time_point_after_insert - time_point_before_insert;
+                long insert_time = chrono::duration_cast<chrono::nanoseconds>(time_diff_insert).count();
+
+
+                // сам бенчмарк, в данном случае создание (поиск)
+                auto time_point_before_search = chrono::steady_clock::now();
+                while (getline(input_file_search, line, ',')) {
+                    tree->Search(stoi(line));
+                }
+                auto time_point_after_search = chrono::steady_clock::now();
+                auto time_diff_search = time_point_after_search - time_point_before_search;
+                long search_time = chrono::duration_cast<chrono::nanoseconds>(time_diff_search).count();
+
+
+                /*
+                // сам бенчмарк, в данном случае создание (удаление)
+                auto time_point_before_delete = chrono::steady_clock::now();
+                while (getline(input_file_delete, line, ',')) {
+                    cout << c << endl;
+                    c++;
+                    tree->Delete(stoi(line));
+                }
+                auto time_point_after_delete = chrono::steady_clock::now();
+                auto time_diff_delete = time_point_after_delete - time_point_before_delete;
+                long delete_time = chrono::duration_cast<chrono::nanoseconds>(time_diff_delete).count();
+
+                 */
+
+
+                delete tree;
+
+                writeResults(file, insert_time, search_time, 0);
+            }
+        }
+    }
+}
+
