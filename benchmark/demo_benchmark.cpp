@@ -15,17 +15,15 @@ using namespace itis;
 static constexpr auto kDatasetPath = string_view{PROJECT_DATASET_DIR};
 static constexpr auto kProjectPath = string_view{PROJECT_SOURCE_DIR};
 
-const string setsPath = "C:/Users/EvveKiNG/Desktop/sets";
+const string setsPath = "C:/Users/EvveKiNG/Desktop/Sets";
 const string outputPath = "C:/Users/EvveKiNG/Desktop/results/";
-/*
+
 string folders[10] = {"/01/",
                       "/02/",
                       "/03/",
                       "/04/", "/05/", "/06/",
                       "/07/", "/08/", "/09/",
                       "/10/"};
-*/
-string folders[1] ={ "/ideal/"};
 
 string files[14] = {"100", "500", "1000", "5000", "10000", "25000", "50000", "100000",
                     "250000", "500000", "750000", "1000000", "2500000", "5000000"};
