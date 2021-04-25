@@ -26,11 +26,10 @@ string folders[10] = {"/01/",
                       "/10/"};
 */
 string folders[1] ={ "/ideal/"};
-string files[1] = {"5000000"};
-/*
+
 string files[14] = {"100", "500", "1000", "5000", "10000", "25000", "50000", "100000",
                     "250000", "500000", "750000", "1000000", "2500000", "5000000"};
-*/
+
 void writeResults(string file, long insert_time, long search_time, long delete_time){
     const auto output = string(outputPath);
     std::ofstream out(output + file + "/insert_result.txt", std::ios::app);
