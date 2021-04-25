@@ -174,7 +174,6 @@ namespace itis {
               root_ = current->right;
               current->right->parent = nullptr;
           }
-
           delete current;
       }
       else if(current->left != nullptr && current->right == nullptr){
@@ -235,44 +234,27 @@ namespace itis {
                 root_ = current->right;
                 current->right->parent = nullptr;
             }
-
             delete current;
-        }
-        else if(current->left != nullptr && current->right == nullptr){
-            if(root_ != current) {
-                Node *parent = current->parent;
-                if (parent->left == current) {
-                    parent->left = current->left;
-                } else {
-                    parent->right = current->left;
-                }
-                current->left->parent = parent;
-                IncreaseLevel(current->parent->left);
-                IncreaseLevel(current->parent->right);
-                Balance(current->parent);
-            }
-            else{
-                root_ = current->left;
-                current->right->parent = nullptr;
-            }
-            delete current;
-        }
-        else{
-            Node* node = current->right;
-            while(node->left != nullptr){
-                node = node->left;
-            }
-            Swap(node, current);
-            Delete(current);
         }
     }
 
 
   void AATree::Swap(Node *one, Node *two){
-    Node twoCopy = *two;
+      int value = one->value;
+      one->value = two->value;
+      two->value = value;
+    /* Node twoCopy = *two;
+    Node* parent = two->parent;
 
     two->level = one->level;
     if(one->parent == two){
+        one->parent = parent;
+        if(parent->left == two){
+            parent->left = one;
+        }
+        else{
+            parent->right = one;
+        }
       two->parent = one;
       two->left = one->left;
       two->right = one->right;
@@ -319,6 +301,7 @@ namespace itis {
       one->right->parent = one;
     }
 
+     */
   }
 
     void AATree::IncreaseLevel(Node *current) {
@@ -374,4 +357,5 @@ namespace itis {
       cout << endl;
     }
   }
+
 }  // namespace itis

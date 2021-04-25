@@ -19,8 +19,6 @@ namespace itis {
 
     void Add(int value);
 
-
-
       Node* Search(int value);
 
       void Delete(int value);

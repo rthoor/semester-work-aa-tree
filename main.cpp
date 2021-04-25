@@ -41,5 +41,33 @@ int main(int argc, char *argv[]) {
 
   tree.Print(tree.root_);
   cout << "----------------------------------" << endl;
+
+    tree.Add(8);
+    tree.Add(8);
+    tree.Add(8);
+    tree.Add(8);
+    tree.Add(8);
+    tree.Add(10);
+    tree.Add(9);
+    tree.Add(8);
+    tree.Add(8);
+    tree.Add(8);
+    tree.Add(11);
+    tree.Add(7);
+    tree.Add(7);
+    tree.Add(7);
+    tree.Add(7);
+
+    cout << "_________________________________" << endl;
+    tree.Print(tree.root_);
+    cout << "----------------------------------" << endl;
+    tree.Delete(8);
+    tree.Delete(8);
+    tree.Delete(8);
+    tree.Delete(8);
+    tree.Delete(8);
+    tree.Delete(8);
+    tree.Print(tree.root_);
+    cout << "----------------------------------" << endl;
   return 0;
 }

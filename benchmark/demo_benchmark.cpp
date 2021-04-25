@@ -17,17 +17,20 @@ static constexpr auto kProjectPath = string_view{PROJECT_SOURCE_DIR};
 
 const string setsPath = "C:/Users/EvveKiNG/Desktop/sets";
 const string outputPath = "C:/Users/EvveKiNG/Desktop/results/";
-
+/*
 string folders[10] = {"/01/",
                       "/02/",
                       "/03/",
                       "/04/", "/05/", "/06/",
                       "/07/", "/08/", "/09/",
                       "/10/"};
+*/
+string folders[1] ={ "/ideal/"};
+string files[1] = {"5000000"};
+/*
 string files[14] = {"100", "500", "1000", "5000", "10000", "25000", "50000", "100000",
-                   "250000", "500000", "750000", "1000000", "2500000", "5000000"};
-
-
+                    "250000", "500000", "750000", "1000000", "2500000", "5000000"};
+*/
 void writeResults(string file, long insert_time, long search_time, long delete_time){
     const auto output = string(outputPath);
     std::ofstream out(output + file + "/insert_result.txt", std::ios::app);
@@ -59,7 +62,7 @@ int main() {
     int c = 0;
     for (auto file : files) {
         for (auto folder : folders) {
-            for (int i = 0; i < 1; i++) { // 10 раз прогоняем один и тот же csv файл
+            for (int i = 0; i < 10; i++) { // 10 раз прогоняем один и тот же csv файл
                 auto input_file_insert = ifstream(path + folder + file + ".csv");
                 auto input_file_search = ifstream(path + folder + file + ".csv");
                 auto input_file_delete = ifstream(path + folder + file + ".csv");
@@ -86,24 +89,22 @@ int main() {
                 long search_time = chrono::duration_cast<chrono::nanoseconds>(time_diff_search).count();
 
 
-                /*
                 // сам бенчмарк, в данном случае создание (удаление)
                 auto time_point_before_delete = chrono::steady_clock::now();
                 while (getline(input_file_delete, line, ',')) {
-                    cout << c << endl;
-                    c++;
+                   // cout << c << endl;
+                   // c++;
                     tree->Delete(stoi(line));
                 }
                 auto time_point_after_delete = chrono::steady_clock::now();
                 auto time_diff_delete = time_point_after_delete - time_point_before_delete;
                 long delete_time = chrono::duration_cast<chrono::nanoseconds>(time_diff_delete).count();
 
-                 */
 
 
                 delete tree;
 
-                writeResults(file, insert_time, search_time, 0);
+                writeResults(file, insert_time, search_time, delete_time);
             }
         }
     }
